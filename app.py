@@ -1,7 +1,7 @@
-import os
 from flask import Flask, render_template, request, redirect, url_for, flash
 from brevo import brevo
 from config import Config
+import os
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -17,7 +17,7 @@ def home():
 def public_reserve():
     if request.method == 'POST':
         name = request.form.get('name')
-        email = request.form.get('email')
+        email = request.form.get('email')  # Email field for confirmation
         phone = request.form.get('phone')
         guests = request.form.get('guests')
         date = request.form.get('date')
@@ -52,7 +52,4 @@ def public_status():
     return render_template('public_status.html')
 
 if __name__ == '__main__':
-    # Use the port provided by the environment (such as Render)
-    port = int(os.environ.get("PORT", 5000))  # Default to 5000 if not set
-    app.run(debug=True, host='0.0.0.0', port=port)
-
+    app.run(host='0.0.0.0', port=5000, debug=True)
