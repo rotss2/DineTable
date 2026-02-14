@@ -17,9 +17,11 @@ def home():
 def public_reserve():
     if request.method == 'POST':
         name = request.form.get('name')
-        email = request.form.get('email')
+        email = request.form.get('email') # Email field for confirmation
         phone = request.form.get('phone')
         guests = request.form.get('guests')
+        date = request.form.get('date')
+        time = request.form.get('time')
 
         # Simulate saving reservation (we're skipping DB for now)
         flash(f"Reservation for {name} (guests: {guests}) is successfully submitted!", "success")
@@ -35,7 +37,7 @@ def send_confirmation_email(name, email):
     try:
         # Confirmation email message
         message = {
-            "sender": {"email": "your_email@domain.com"},  # Replace with your own email
+            "sender": {"email": app.config["BREVO_SENDER_EMAIL"]}, # Use the sender email from environment variables
             "to": [{"email": email}],
             "subject": "Table Reservation Confirmation",
             "htmlContent": f"<p>Hi {name}, your reservation has been confirmed!</p>"
