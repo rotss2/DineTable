@@ -3,22 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reserve a Table</title>
+    <title>Book a Reservation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <h1>Reserve Your Table</h1>
-    <form method="POST">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" required><br><br>
+    <h1>Book a Reservation</h1>
+    
+    <form action="{{ url_for('public_reserve') }}" method="post">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
 
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required><br><br>
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email address" required>
 
-        <label for="phone">Phone</label>
-        <input type="text" id="phone" name="phone" required><br><br>
+        <label for="phone">Phone Number (optional)</label>
+        <input type="text" id="phone" name="phone" placeholder="Enter your phone number">
 
         <label for="guests">Number of Guests</label>
-        <input type="number" id="guests" name="guests" required><br><br>
+        <input type="number" id="guests" name="guests" placeholder="Enter number of guests" required>
+
+        <label for="date">Reservation Date</label>
+        <input type="date" id="date" name="date" required>
+
+        <label for="time">Reservation Time</label>
+        <input type="time" id="time" name="time" required>
 
         <button type="submit">Submit Reservation</button>
     </form>
