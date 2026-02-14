@@ -17,12 +17,11 @@ def home():
 def public_reserve():
     if request.method == 'POST':
         name = request.form.get('name')
-        email = request.form.get('email')  # Get email
+        email = request.form.get('email') # Email field for confirmation
         phone = request.form.get('phone')
         guests = request.form.get('guests')
         date = request.form.get('date')
         time = request.form.get('time')
-        notes = request.form.get('notes')
 
         # Simulate saving reservation (we're skipping DB for now)
         flash(f"Reservation for {name} (guests: {guests}) is successfully submitted!", "success")
@@ -34,29 +33,23 @@ def public_reserve():
 
     return render_template('public_reserve.html')
 
-
 def send_confirmation_email(name, email):
     try:
         # Confirmation email message
         message = {
-            "sender": {"email": "your_email@domain.com"},  # Replace with your own email
+            "sender": {"email": app.config["BREVO_SENDER_EMAIL"]}, # Use the sender email from environment variables
             "to": [{"email": email}],
             "subject": "Table Reservation Confirmation",
             "htmlContent": f"<p>Hi {name}, your reservation has been confirmed!</p>"
         }
 
         brevo_client.send_email(message)
-        print("Confirmation email sent successfully.")
-
     except Exception as e:
         flash(f"Error sending confirmation email: {e}", "danger")
-        print(f"Error: {e}")
-
 
 @app.route('/status')
 def public_status():
     return render_template('public_status.html')
-
 
 if __name__ == '__main__':
     app.run(debug=True)
