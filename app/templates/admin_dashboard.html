@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard • TableQueue{% endblock %}
+{% block content %}
+<div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+  <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+    <div>
+      <h2 class="text-2xl font-semibold tracking-tight"><i class="bi bi-speedometer2 me-2 text-slate-500"></i>Dashboard</h2>
+      <p class="mt-1 text-sm text-slate-600">Manage reservations and update statuses.</p>
+    </div>
+    <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div class="rounded-2xl bg-slate-50 p-4 text-center">
+        <div class="text-xs text-slate-500">Waiting</div>
+        <div class="text-xl font-semibold">{{ waiting }}</div>
+      </div>
+      <div class="rounded-2xl bg-slate-50 p-4 text-center">
+        <div class="text-xs text-slate-500">Ready</div>
+        <div class="text-xl font-semibold">{{ ready }}</div>
+      </div>
+      <div class="rounded-2xl bg-slate-50 p-4 text-center">
+        <div class="text-xs text-slate-500">Seated</div>
+        <div class="text-xl font-semibold">{{ seated }}</div>
+      </div>
+      <div class="rounded-2xl bg-slate-50 p-4 text-center">
+        <div class="text-xs text-slate-500">Total</div>
+        <div class="text-xl font-semibold">{{ total }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-6 overflow-hidden rounded-3xl border border-slate-200">
+    <div class="grid grid-cols-12 bg-slate-900 px-4 py-3 text-xs font-semibold text-white">
+      <div class="col-span-2">Ticket</div>
+      <div class="col-span-3">Name</div>
+      <div class="col-span-2">Schedule</div>
+      <div class="col-span-1 text-center">Guests</div>
+      <div class="col-span-2">Status</div>
+      <div class="col-span-2 text-right">Actions</div>
+    </div>
+
+    {% for r in rows %}
+      <div class="grid grid-cols-12 items-center gap-2 border-t border-slate-200 bg-white px-4 py-3 text-sm">
+        <div class="col-span-2 font-mono font-semibold">{{ r.ticket_code }}</div>
+        <div class="col-span-3">
+          <div class="font-semibold">{{ r.full_name }}</div>
+          <div class="text-xs text-slate-500">{{ r.phone or "" }}</div>
+        </div>
+        <div class="col-span-2 text-slate-700">{{ r.reserve_date }} {{ r.reserve_time }}</div>
+        <div class="col-span-1 text-center">{{ r.guests }}</div>
+        <div class="col-span-2">
+          <span class="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">{{ r.status }}</span>
+        </div>
+        <div class="col-span-2 flex justify-end">
+          <form method="POST" action="{{ url_for('admin.set_status', rid=r.id) }}" class="flex items-center gap-2">
+            <select name="status" class="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold">
+              {% for s in ["WAITING","READY","SEATED","DONE","CANCELLED"] %}
+                <option value="{{ s }}" {% if r.status==s %}selected{% endif %}>{{ s }}</option>
+              {% endfor %}
+            </select>
+            <button class="rounded-xl bg-slate-900 px-3 py-2 text-xs font-semibold text-white hover:bg-slate-800">
+              Update
+            </button>
+          </form>
+        </div>
+      </div>
+    {% else %}
+      <div class="bg-white p-6 text-sm text-slate-600">No reservations yet.</div>
+    {% endfor %}
+  </div>
+
+  <div class="mt-6 flex justify-end">
+    <a class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold hover:bg-slate-50" href="{{ url_for('admin.users') }}">
+      Manage Users
+    </a>
+  </div>
+</div>
+{% endblock %}

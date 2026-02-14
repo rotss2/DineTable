@@ -1,0 +1,9 @@
+flask
+gunicorn
+flask_sqlalchemy
+flask_login
+psycopg2-binary
+requests
+qrcode[pil]
+pillow
+flask-limiter
