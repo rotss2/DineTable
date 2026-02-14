@@ -1,15 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from brevo_sdk import BrevoClient  # Correct import for Brevo SDK
+from brevo import brevo
+from config import Config
 import os
 
 app = Flask(__name__)
+app.config.from_object(Config)
 
-# Load configuration from environment variables or config.py
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default_secret')  # Use a secret key for session management
-app.config['BREVO_API_KEY'] = os.getenv('BREVO_API_KEY')  # Load Brevo API Key from environment variable
-
-# Initialize Brevo client
-brevo_client = BrevoClient(api_key=app.config["BREVO_API_KEY"])
+# Setup Brevo email service
+brevo_client = brevo.Client(api_key=app.config["BREVO_API_KEY"])
 
 @app.route('/')
 def home():
@@ -23,36 +21,58 @@ def public_reserve():
         phone = request.form.get('phone')
         guests = request.form.get('guests')
 
-        # Simulate saving reservation (e.g., skip DB for now)
+        # Simulate saving reservation (we're skipping DB for now)
         flash(f"Reservation for {name} (guests: {guests}) is successfully submitted!", "success")
 
         # Send confirmation email via Brevo
         send_confirmation_email(name, email)
 
+        # Test Brevo email
+        test_brevo_email()
+
         return redirect(url_for('public_status'))
 
     return render_template('public_reserve.html')
 
+
 def send_confirmation_email(name, email):
     try:
-        # Prepare email content
+        # Confirmation email message
         message = {
-            "sender": {"email": "your_email@domain.com"},  # Replace with your email
+            "sender": {"email": "your_email@domain.com"}, # Replace with your own email
             "to": [{"email": email}],
             "subject": "Table Reservation Confirmation",
             "htmlContent": f"<p>Hi {name}, your reservation has been confirmed!</p>"
         }
 
-        # Send the email using Brevo
         brevo_client.send_email(message)
+        print("Confirmation email sent successfully.")
 
     except Exception as e:
         flash(f"Error sending confirmation email: {e}", "danger")
+        print(f"Error: {e}")
+
+
+def test_brevo_email():
+    """ Test function to manually send an email via Brevo """
+    message = {
+        "sender": {"email": "your_email@domain.com"}, # Your email address
+        "to": [{"email": "test_email@domain.com"}], # Test email address
+        "subject": "Test Email",
+        "htmlContent": "<p>This is a test email from Brevo!</p>"
+    }
+
+    try:
+        brevo_client.send_email(message)
+        print("Test email sent successfully.")
+    except Exception as e:
+        print(f"Error sending test email: {e}")
+
 
 @app.route('/status')
 def public_status():
     return render_template('public_status.html')
 
+
 if __name__ == '__main__':
-    # Run the Flask application with debug enabled
     app.run(debug=True)
