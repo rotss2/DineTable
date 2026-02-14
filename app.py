@@ -1,13 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from brevo import brevo
-from config import Config
+from brevo_sdk import BrevoClient  # Correct import for Brevo SDK
 import os
 
 app = Flask(__name__)
-app.config.from_object(Config)
 
-# Setup Brevo email service
-brevo_client = brevo.Client(api_key=app.config["BREVO_API_KEY"])
+# Load configuration from environment variables or config.py
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default_secret')  # Use a secret key for session management
+app.config['BREVO_API_KEY'] = os.getenv('BREVO_API_KEY')  # Load Brevo API Key from environment variable
+
+# Initialize Brevo client
+brevo_client = BrevoClient(api_key=app.config["BREVO_API_KEY"])
 
 @app.route('/')
 def home():
@@ -21,7 +23,7 @@ def public_reserve():
         phone = request.form.get('phone')
         guests = request.form.get('guests')
 
-        # Simulate saving reservation (we're skipping DB for now)
+        # Simulate saving reservation (e.g., skip DB for now)
         flash(f"Reservation for {name} (guests: {guests}) is successfully submitted!", "success")
 
         # Send confirmation email via Brevo
@@ -33,15 +35,17 @@ def public_reserve():
 
 def send_confirmation_email(name, email):
     try:
-        # Confirmation email message
+        # Prepare email content
         message = {
-            "sender": {"email": "your_email@domain.com"},  # Replace with your own email
+            "sender": {"email": "your_email@domain.com"},  # Replace with your email
             "to": [{"email": email}],
             "subject": "Table Reservation Confirmation",
             "htmlContent": f"<p>Hi {name}, your reservation has been confirmed!</p>"
         }
 
+        # Send the email using Brevo
         brevo_client.send_email(message)
+
     except Exception as e:
         flash(f"Error sending confirmation email: {e}", "danger")
 
@@ -50,4 +54,5 @@ def public_status():
     return render_template('public_status.html')
 
 if __name__ == '__main__':
+    # Run the Flask application with debug enabled
     app.run(debug=True)
