@@ -1,26 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reserve a Table</title>
-</head>
-<body>
-    <h1>Reserve Your Table</h1>
-    <form method="POST">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" required><br><br>
+<form method="POST" action="{{ url_for('public_reserve') }}">
+    <div>
+        <label for="name">Full name:</label>
+        <input type="text" id="name" name="name" required>
+    </div>
 
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required><br><br>
+    <div>
+        <label for="phone">Phone (optional for SMS):</label>
+        <input type="text" id="phone" name="phone">
+    </div>
 
-        <label for="phone">Phone</label>
-        <input type="text" id="phone" name="phone" required><br><br>
+    <div>
+        <label for="email">Email (required for confirmation):</label>
+        <input type="email" id="email" name="email" required>
+    </div>
 
-        <label for="guests">Number of Guests</label>
-        <input type="number" id="guests" name="guests" required><br><br>
+    <div>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required>
+    </div>
 
-        <button type="submit">Submit Reservation</button>
-    </form>
-</body>
-</html>
+    <div>
+        <label for="time">Time:</label>
+        <input type="time" id="time" name="time" required>
+    </div>
+
+    <div>
+        <label for="guests">Guests:</label>
+        <input type="number" id="guests" name="guests" required>
+    </div>
+
+    <div>
+        <label for="notes">Notes (optional):</label>
+        <textarea id="notes" name="notes"></textarea>
+    </div>
+
+    <div>
+        <button type="submit">Submit</button>
+    </div>
+</form>
